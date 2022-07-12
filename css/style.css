@@ -275,9 +275,9 @@ section {
 }
 .cursor {
   position: fixed;
-  background: #1378ef;
-  width: 8px;
-  height: 8px;
+  background: red;
+  width: 5px;
+  height: 5px;
   border-radius: 100%;
   -webkit-user-select: none;
   -moz-user-select: none;

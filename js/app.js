@@ -18,8 +18,8 @@ function changeCursor() {
 
           TweenMax.set(follower, {
             css: {
-              left: posX - 12,
-              top: posY - 12
+              left: posX - 19,
+              top: posY - 19
             }
           })
           TweenMax.set(cursor, {
