@@ -276,8 +276,8 @@ section {
 .cursor {
   position: fixed;
   background: #1378ef;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 100%;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -293,8 +293,8 @@ section {
 }
 .follower {
   position: fixed;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 100%;
   border: 1px solid #1378ef;
   -webkit-user-select: none;
@@ -303,7 +303,7 @@ section {
   user-select: none;
   pointer-events: none;
   z-index: 1111;
-  transition: 0.5s cubic-bezier(0.75, -1.27, 0.3, 2.33) transform,
+  transition: 1s cubic-bezier(0.75, -1.27, 0.3, 2.33) transform,
     0.2s cubic-bezier(0.75, -0.27, 0.3, 1.33) background;
   transform: translate(2px, 2px);
 }
