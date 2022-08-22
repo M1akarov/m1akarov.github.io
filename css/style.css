@@ -122,6 +122,7 @@ header .header__item .subtitle {
   color: #fff;
   margin-top: 25px;
 }
+
 header .header__item .info {
   display: flex;
   flex-wrap: wrap;
