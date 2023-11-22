@@ -126,7 +126,7 @@ header .header__item .subtitle {
 header .header__item .info {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 30px;
+  margin-top: 50px;
   margin-left: 20px;
   -moz-column-gap: 20px;
   column-gap: 20px;
@@ -134,7 +134,7 @@ header .header__item .info {
   width: 100%;
 }
 header .header__item .info__item {
-  margin-top: 20px;
+  margin-top: 50px;
   font-style: normal;
   font-weight: normal;
   font-size: 21px;
