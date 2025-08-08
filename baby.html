@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Baby Tracker — Mobile</title>
+  <style>
+   	:root {
+		--bg: #f5f5f7;
+		--card: #fff;
+		--accent: #0071e3;
+		--danger: #ff3b30;
+		--muted: #86868b;
+		--border: #e5e5ea;
+	}
+	body {
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+		margin: 0;
+		padding: 0;
+		color: #1d1d1f;
+		background: var(--bg);
+	}
+	.container {
+		max-width: 420px;
+		margin: 0 auto;
+		padding: 24px 8px 24px 8px;
+	}
+	.card {
+		background: var(--card);
+		border-radius: 24px;
+		box-shadow: 0 2px 8px rgba(60,60,67,0.07);
+		padding: 24px;
+		margin-bottom: 24px;
+		border: 1px solid var(--border);
+		transition: box-shadow 0.2s;
+	}
+	.card:hover {
+		box-shadow: 0 8px 32px rgba(60,60,67,0.10);
+	}
+	.header {
+		display: flex;
+		align-items: center;
+		gap: 18px;
+		margin-bottom: 18px;
+	}
+	.header-emoji {
+		font-size: 48px;
+	}
+	.header-title {
+		font-size: 26px;
+		font-weight: 600;
+		margin: 0;
+		letter-spacing: -0.5px;
+	}
+	.header-sub {
+		font-size: 15px;
+		color: var(--muted);
+		margin-top: 2px;
+	}
+	.header-age {
+		font-size: 16px;
+		color: var(--accent);
+		margin-top: 4px;
+	}
+	.timerDisplay {
+		font-size: 36px;
+		font-weight: 700;
+		background: #f2f2f7;
+		padding: 18px;
+		border-radius: 16px;
+		text-align: center;
+		margin-bottom: 14px;
+		border: 1px solid var(--border);
+	}
+	.statusText {
+		font-size: 17px;
+		color: var(--muted);
+		text-align: center;
+		margin-bottom: 18px;
+	}
+	.form-row {
+		display: flex;
+		gap: 18px;
+		align-items: center;
+		margin-bottom: 18px;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	label.inline {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 20px;
+		cursor: pointer;
+	}
+	label.inline input[type="checkbox"] {
+		width: 36px;
+		height: 36px;
+		accent-color: var(--accent);
+		margin-right: 8px;
+		border-radius: 50%;
+		appearance: none;
+		background: #fff;
+		border: 2px solid var(--border);
+		display: inline-block;
+		vertical-align: middle;
+		position: relative;
+		transition: border-color 0.2s, background 0.2s;
+	}
+	label.inline input[type="checkbox"]:checked {
+		background: var(--accent);
+		border-color: var(--accent);
+	}
+	label.inline input[type="checkbox"]::after {
+		content: '';
+		display: block;
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		background: #fff;
+		position: absolute;
+		top: 8px;
+		left: 8px;
+	}
+	label.inline input[type="checkbox"]:checked::after {
+		background: #fff;
+	}
+	.controls {
+		display: flex;
+		gap: 16px;
+		justify-content: center;
+		margin-bottom: 18px;
+		flex-wrap: wrap;
+	}
+	button {
+		font-size: 20px;
+		padding: 14px 0;
+		border-radius: 14px;
+		border: none;
+		background: var(--accent);
+		color: #fff;
+		font-weight: 600;
+		cursor: pointer;
+		flex: 1 1 40%;
+		margin-bottom: 0;
+		box-shadow: 0 1px 4px rgba(60,60,67,0.04);
+		transition: background 0.2s, box-shadow 0.2s;
+	}
+	button.secondary {
+		background: #fff;
+		color: var(--accent);
+		border: 1.5px solid var(--accent);
+	}
+	button.danger {
+		background: var(--danger);
+	}
+	button:active {
+		box-shadow: 0 2px 8px rgba(60,60,67,0.10);
+	}
+	.entry {
+		background: #f2f2f7;
+		border-radius: 14px;
+		padding: 14px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		font-size: 17px;
+		border: 1px solid var(--border);
+	}
+	.entry-actions {
+		display: flex;
+		gap: 12px;
+		margin-top: 8px;
+	}
+	.chip {
+		display: inline-block;
+		background: #e5e5ea;
+		border-radius: 12px;
+		padding: 6px 12px;
+		font-size: 16px;
+		margin-right: 10px;
+	}
+	.note {
+		color: var(--muted);
+		font-size: 16px;
+		margin-top: 2px;
+	}
+	@media (max-width: 500px) {
+		.container { padding: 4px; }
+		.card { padding: 12px; }
+		button { font-size: 18px; padding: 10px 0; }
+		.header-title { font-size: 20px; }
+		.timerDisplay { font-size: 26px; padding: 10px; }
+	}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <div class="header-emoji">👶</div>
+        <div class="header-info">
+          <div class="header-title">Melania</div>
+          					<!-- ...existing code... -->
+					<div class="header-sub">July 24, 2025, 6:51 PM</div>
+					<div class="header-age" id="ageDisplay" style="font-size:14px; color:#2563eb; margin-top:2px;"></div>
+					<!-- ...existing code... -->
+        </div>
+      </div>
+      <div class="timerDisplay" id="timerDisplay">00:00:00</div>
+      <div class="statusText" id="statusText">Остановлен</div>
+      			
+						<!-- ...existing code... -->
+			<div class="form-row">
+				<label class="inline"><input type="checkbox" id="chkPee"> 💧 Pee</label>
+				<label class="inline"><input type="checkbox" id="chkPoop"> 💩 Poop</label>
+			</div>
+
+			<div class="controls" style="display: flex; gap: 10px; margin-bottom: 10px;">
+				<button id="startBtn" style="flex:1;">Start</button>
+				<button id="stopBtn" class="secondary" style="flex:1;" disabled>Stop</button>
+			</div>
+			<div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;">
+				<button id="clearAll" class="danger" style="width:100%;">Clear All</button>
+			</div>
+			<!-- ...existing code... -->
+      			
+			
+			<button id="exportCSV" class="secondary" style="width:100%; margin-bottom:12px;">Export CSV</button>
+			
+    </div>
+    <div class="card">
+      <div style="font-weight:600; margin-bottom:8px;">История кормлений</div>
+      <div class="history" id="history"></div>
+    </div>
+  </div>
+  <script>
+    // Мобильная версия логики
+    let records = [];
+    let timer = null;
+    let startTime = null;
+
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const statusText = document.getElementById('statusText');
+    const chkPee = document.getElementById('chkPee');
+    const chkPoop = document.getElementById('chkPoop');
+    const historyEl = document.getElementById('history');
+    const clearAll = document.getElementById('clearAll');
+		const exportCSV = document.getElementById('exportCSV');
+		
+		exportCSV.onclick = function() {
+			if (records.length === 0) {
+				alert('No records to export.');
+				return;
+			}
+			const header = ['Start Time', 'End Time', 'Duration (sec)', '💧 Pee', '💩 Poop'];
+			const rows = records.map(r =>
+				[
+					new Date(r.startISO).toLocaleString(),
+					new Date(r.endISO).toLocaleString(),
+					r.durationSec,
+					r.pee ? 'Yes' : '',
+					r.poop ? 'Yes' : ''
+				].join(',')
+			);
+			const csvContent = [header.join(','), ...rows].join('\n');
+			const blob = new Blob([csvContent], { type: 'text/csv' });
+			const url = URL.createObjectURL(blob);
+		
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = 'baby-tracker.csv';
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			URL.revokeObjectURL(url);
+		};
+
+    function formatDuration(sec) {
+      sec = Math.max(0, Math.floor(sec));
+      const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+      const s = String(sec % 60).padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+
+				// ...existing code...
+		const birthDate = new Date('2025-07-24T18:51:00');
+		const ageDisplay = document.getElementById('ageDisplay');
+		
+		// ...existing code...
+function updateAgeDisplay() {
+  const now = new Date();
+  let diffMs = now - birthDate;
+  if (diffMs < 0) {
+    ageDisplay.textContent = 'Age: not born yet';
+    return;
+  }
+  const diffMins = Math.floor(diffMs / 60000);
+  const days = Math.floor(diffMins / (60 * 24));
+  const hours = Math.floor((diffMins % (60 * 24)) / 60);
+  const minutes = diffMins % 60;
+  ageDisplay.textContent = `Age: ${days} days ${hours} hrs ${minutes} min`;
+}
+// ...existing code...
+		
+		updateAgeDisplay();
+		setInterval(updateAgeDisplay, 60000);
+		// ...existing code...
+
+    function updateTimerUI() {
+      if (!startTime) {
+        timerDisplay.textContent = '00:00:00';
+        statusText.textContent = 'Остановлен';
+        stopBtn.disabled = true;
+        startBtn.disabled = false;
+        return;
+      }
+      const now = Date.now();
+      const sec = Math.floor((now - startTime) / 1000);
+      timerDisplay.textContent = formatDuration(sec);
+      statusText.textContent = 'Идёт кормление';
+      stopBtn.disabled = false;
+      startBtn.disabled = true;
+    }
+
+    function tick() {
+      updateTimerUI();
+    }
+
+    function startFeeding() {
+      if (startTime) return;
+      startTime = Date.now();
+      timer = setInterval(tick, 500);
+      updateTimerUI();
+    }
+
+    function stopFeeding() {
+      if (!startTime) return;
+      const end = Date.now();
+      const durationSec = Math.floor((end - startTime) / 1000);
+      const rec = {
+        id: 'r_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+        startISO: new Date(startTime).toISOString(),
+        endISO: new Date(end).toISOString(),
+        durationSec,
+        pee: chkPee.checked,
+        poop: chkPoop.checked,
+      };
+      records.unshift(rec);
+      renderHistory();
+      clearInterval(timer);
+      timer = null;
+      startTime = null;
+      chkPee.checked = false;
+      chkPoop.checked = false;
+      updateTimerUI();
+    }
+
+    function renderHistory() {
+  historyEl.innerHTML = '';
+  if (records.length === 0) {
+    historyEl.innerHTML = '<div class="note">History is empty — no records yet.</div>';
+    return;
+  }
+  records.forEach(rec => {
+    const el = document.createElement('div');
+    el.className = 'entry';
+    el.innerHTML = `
+      <div><b>${new Date(rec.startISO).toLocaleString()}</b> (${formatDuration(rec.durationSec)})</div>
+      <div>
+        <span class="chip">${rec.pee ? '💧' : '💧—'}</span>
+        <span class="chip">${rec.poop ? '💩' : '💩—'}</span>
+      </div>
+      <div class="entry-actions">
+        <button class="secondary" style="font-size:14px;" onclick="deleteRecord('${rec.id}')">Delete</button>
+      </div>
+    `;
+    historyEl.appendChild(el);
+  });
+}
+
+    window.deleteRecord = function(id) {
+      if (confirm('Удалить запись?')) {
+        records = records.filter(r => r.id !== id);
+        renderHistory();
+      }
+    };
+
+    startBtn.onclick = startFeeding;
+    stopBtn.onclick = stopFeeding;
+    clearAll.onclick = function() {
+      if (confirm('Удалить все записи?')) {
+        records = [];
+        renderHistory();
+      }
+    };
+
+    updateTimerUI();
+    renderHistory();
+  </script>
+</body>
+</html>
