@@ -3,403 +3,246 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Baby Tracker — Mobile</title>
+  <title>Melania</title>
   <style>
-   	:root {
-		--bg: #f5f5f7;
-		--card: #fff;
-		--accent: #0071e3;
-		--danger: #ff3b30;
-		--muted: #86868b;
-		--border: #e5e5ea;
-	}
-	body {
-		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-		margin: 0;
-		padding: 0;
-		color: #1d1d1f;
-		background: var(--bg);
-	}
-	.container {
-		max-width: 420px;
-		margin: 0 auto;
-		padding: 24px 8px 24px 8px;
-	}
-	.card {
-		background: var(--card);
-		border-radius: 24px;
-		box-shadow: 0 2px 8px rgba(60,60,67,0.07);
-		padding: 24px;
-		margin-bottom: 24px;
-		border: 1px solid var(--border);
-		transition: box-shadow 0.2s;
-	}
-	.card:hover {
-		box-shadow: 0 8px 32px rgba(60,60,67,0.10);
-	}
-	.header {
-		display: flex;
-		align-items: center;
-		gap: 18px;
-		margin-bottom: 18px;
-	}
-	.header-emoji {
-		font-size: 48px;
-	}
-	.header-title {
-		font-size: 26px;
-		font-weight: 600;
-		margin: 0;
-		letter-spacing: -0.5px;
-	}
-	.header-sub {
-		font-size: 15px;
-		color: var(--muted);
-		margin-top: 2px;
-	}
-	.header-age {
-		font-size: 16px;
-		color: var(--accent);
-		margin-top: 4px;
-	}
-	.timerDisplay {
-		font-size: 36px;
-		font-weight: 700;
-		background: #f2f2f7;
-		padding: 18px;
-		border-radius: 16px;
-		text-align: center;
-		margin-bottom: 14px;
-		border: 1px solid var(--border);
-	}
-	.statusText {
-		font-size: 17px;
-		color: var(--muted);
-		text-align: center;
-		margin-bottom: 18px;
-	}
-	.form-row {
-		display: flex;
-		gap: 18px;
-		align-items: center;
-		margin-bottom: 18px;
-		flex-wrap: wrap;
-		justify-content: center;
-	}
-	label.inline {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-		font-size: 20px;
-		cursor: pointer;
-	}
-	label.inline input[type="checkbox"] {
-		width: 36px;
-		height: 36px;
-		accent-color: var(--accent);
-		margin-right: 8px;
-		border-radius: 50%;
-		appearance: none;
-		background: #fff;
-		border: 2px solid var(--border);
-		display: inline-block;
-		vertical-align: middle;
-		position: relative;
-		transition: border-color 0.2s, background 0.2s;
-	}
-	label.inline input[type="checkbox"]:checked {
-		background: var(--accent);
-		border-color: var(--accent);
-	}
-	label.inline input[type="checkbox"]::after {
-		content: '';
-		display: block;
-		width: 20px;
-		height: 20px;
-		border-radius: 50%;
-		background: #fff;
-		position: absolute;
-		top: 8px;
-		left: 8px;
-	}
-	label.inline input[type="checkbox"]:checked::after {
-		background: #fff;
-	}
-	.controls {
-		display: flex;
-		gap: 16px;
-		justify-content: center;
-		margin-bottom: 18px;
-		flex-wrap: wrap;
-	}
-	button {
-		font-size: 20px;
-		padding: 14px 0;
-		border-radius: 14px;
-		border: none;
-		background: var(--accent);
-		color: #fff;
-		font-weight: 600;
-		cursor: pointer;
-		flex: 1 1 40%;
-		margin-bottom: 0;
-		box-shadow: 0 1px 4px rgba(60,60,67,0.04);
-		transition: background 0.2s, box-shadow 0.2s;
-	}
-	button.secondary {
-		background: #fff;
-		color: var(--accent);
-		border: 1.5px solid var(--accent);
-	}
-	button.danger {
-		background: var(--danger);
-	}
-	button:active {
-		box-shadow: 0 2px 8px rgba(60,60,67,0.10);
-	}
-	.entry {
-		background: #f2f2f7;
-		border-radius: 14px;
-		padding: 14px;
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-		font-size: 17px;
-		border: 1px solid var(--border);
-	}
-	.entry-actions {
-		display: flex;
-		gap: 12px;
-		margin-top: 8px;
-	}
-	.chip {
-		display: inline-block;
-		background: #e5e5ea;
-		border-radius: 12px;
-		padding: 6px 12px;
-		font-size: 16px;
-		margin-right: 10px;
-	}
-	.note {
-		color: var(--muted);
-		font-size: 16px;
-		margin-top: 2px;
-	}
-	@media (max-width: 500px) {
-		.container { padding: 4px; }
-		.card { padding: 12px; }
-		button { font-size: 18px; padding: 10px 0; }
-		.header-title { font-size: 20px; }
-		.timerDisplay { font-size: 26px; padding: 10px; }
-	}
+    :root {
+      --bg: #f5f5f7;
+      --card: #fff;
+      --accent: #0071e3;
+      --muted: #86868b;
+      --border: #e5e5ea;
+      --green: #22c55e;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #1d1d1f;
+      background: var(--bg);
+    }
+    .container {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 32px 8px 32px 8px;
+      box-sizing: border-box;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 24px;
+      box-shadow: 0 2px 8px rgba(60,60,67,0.07);
+      padding: 28px 20px;
+      margin-bottom: 28px;
+      border: 1px solid var(--border);
+      transition: box-shadow 0.2s;
+    }
+    .card:hover {
+      box-shadow: 0 8px 32px rgba(60,60,67,0.10);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .header-emoji {
+      font-size: 48px;
+    }
+    .header-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .header-title {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+    .header-sub {
+      font-size: 15px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .header-age {
+      font-size: 16px;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .days-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+    .days-table td {
+      padding: 10px;
+      text-align: center;
+      min-width: 32px;
+    }
+
+    /* Стили для кастомных чекбоксов */
+    input.custom-checkbox {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s, border-color 0.2s;
+      vertical-align: middle;
+    }
+    input.custom-checkbox:checked {
+      border-color: var(--green);
+      background: var(--green);
+    }
+    input.custom-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 2px;
+      width: 7px;
+      height: 12px;
+      border: solid #fff;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+
+    input.custom-checkbox:disabled {
+      cursor: default;
+      opacity: 0.6;
+    }
+
+    @media (max-width: 500px) {
+      .container { padding: 16px 2px 16px 2px; }
+      .card { padding: 14px 6px; margin-bottom: 14px; }
+      .header-title { font-size: 20px; }
+      .days-table td { padding: 6px 2px; min-width: 24px;}
+      input.custom-checkbox { width: 18px; height: 18px; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="card">
       <div class="header">
-        <div class="header-emoji">👶</div>
+        <div class="header-emoji">🎉</div>
         <div class="header-info">
-          <div class="header-title">Melania</div>
-          					<!-- ...existing code... -->
-					<div class="header-sub">July 24, 2025, 6:51 PM</div>
-					<div class="header-age" id="ageDisplay" style="font-size:14px; color:#2563eb; margin-top:2px;"></div>
-					<!-- ...existing code... -->
+          <div class="header-title">Мелания</div>
+          <div class="header-sub">Девочка, 24 июля 2025</div>
+          <div class="header-age" id="ageDisplay">Возраст: ещё не родилась</div>
         </div>
       </div>
-      <div class="timerDisplay" id="timerDisplay">00:00:00</div>
-      <div class="statusText" id="statusText">Остановлен</div>
-      			
-						<!-- ...existing code... -->
-			<div class="form-row">
-				<label class="inline"><input type="checkbox" id="chkPee"> 💧 Pee</label>
-				<label class="inline"><input type="checkbox" id="chkPoop"> 💩 Poop</label>
-			</div>
-
-			<div class="controls" style="display: flex; gap: 10px; margin-bottom: 10px;">
-				<button id="startBtn" style="flex:1;">Start</button>
-				<button id="stopBtn" class="secondary" style="flex:1;" disabled>Stop</button>
-			</div>
-			<div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;">
-				<button id="clearAll" class="danger" style="width:100%;">Clear All</button>
-			</div>
-			<!-- ...existing code... -->
-      			
-			
-			<button id="exportCSV" class="secondary" style="width:100%; margin-bottom:12px;">Export CSV</button>
-			
-    </div>
-    <div class="card">
-      <div style="font-weight:600; margin-bottom:8px;">История кормлений</div>
-      <div class="history" id="history"></div>
+      <table class="days-table" aria-label="Дни жизни">
+        <tbody id="daysTableBody"></tbody>
+      </table>
+      <div style="display:flex; justify-content:center; align-items:center; margin-top:24px;">
+        <canvas id="lifePieChart" width="120" height="120" aria-label="Диаграмма жизни" role="img"></canvas>
+      </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // Мобильная версия логики
-    let records = [];
-    let timer = null;
-    let startTime = null;
+    const birthDate = new Date('2025-07-24T18:51:00');
+    const ageDisplay = document.getElementById('ageDisplay');
+    const daysTableBody = document.getElementById('daysTableBody');
+    const daysInMonth = 31;
 
-    const startBtn = document.getElementById('startBtn');
-    const stopBtn = document.getElementById('stopBtn');
-    const timerDisplay = document.getElementById('timerDisplay');
-    const statusText = document.getElementById('statusText');
-    const chkPee = document.getElementById('chkPee');
-    const chkPoop = document.getElementById('chkPoop');
-    const historyEl = document.getElementById('history');
-    const clearAll = document.getElementById('clearAll');
-		const exportCSV = document.getElementById('exportCSV');
-		
-		exportCSV.onclick = function() {
-			if (records.length === 0) {
-				alert('No records to export.');
-				return;
-			}
-			const header = ['Start Time', 'End Time', 'Duration (sec)', '💧 Pee', '💩 Poop'];
-			const rows = records.map(r =>
-				[
-					new Date(r.startISO).toLocaleString(),
-					new Date(r.endISO).toLocaleString(),
-					r.durationSec,
-					r.pee ? 'Yes' : '',
-					r.poop ? 'Yes' : ''
-				].join(',')
-			);
-			const csvContent = [header.join(','), ...rows].join('\n');
-			const blob = new Blob([csvContent], { type: 'text/csv' });
-			const url = URL.createObjectURL(blob);
-		
-			const a = document.createElement('a');
-			a.href = url;
-			a.download = 'baby-tracker.csv';
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-			URL.revokeObjectURL(url);
-		};
-
-    function formatDuration(sec) {
-      sec = Math.max(0, Math.floor(sec));
-      const h = String(Math.floor(sec / 3600)).padStart(2, '0');
-      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
-      const s = String(sec % 60).padStart(2, '0');
-      return `${h}:${m}:${s}`;
-    }
-
-				// ...existing code...
-		const birthDate = new Date('2025-07-24T18:51:00');
-		const ageDisplay = document.getElementById('ageDisplay');
-		
-		// ...existing code...
-function updateAgeDisplay() {
-  const now = new Date();
-  let diffMs = now - birthDate;
-  if (diffMs < 0) {
-    ageDisplay.textContent = 'Age: not born yet';
-    return;
-  }
-  const diffMins = Math.floor(diffMs / 60000);
-  const days = Math.floor(diffMins / (60 * 24));
-  const hours = Math.floor((diffMins % (60 * 24)) / 60);
-  const minutes = diffMins % 60;
-  ageDisplay.textContent = `Age: ${days} days ${hours} hrs ${minutes} min`;
-}
-// ...existing code...
-		
-		updateAgeDisplay();
-		setInterval(updateAgeDisplay, 60000);
-		// ...existing code...
-
-    function updateTimerUI() {
-      if (!startTime) {
-        timerDisplay.textContent = '00:00:00';
-        statusText.textContent = 'Остановлен';
-        stopBtn.disabled = true;
-        startBtn.disabled = false;
+    function updateAgeDisplay() {
+      const now = new Date();
+      const diffMs = now - birthDate;
+      if (diffMs < 0) {
+        ageDisplay.textContent = 'Возраст: ещё не родилась';
         return;
       }
-      const now = Date.now();
-      const sec = Math.floor((now - startTime) / 1000);
-      timerDisplay.textContent = formatDuration(sec);
-      statusText.textContent = 'Идёт кормление';
-      stopBtn.disabled = false;
-      startBtn.disabled = true;
+      const diffMins = Math.floor(diffMs / 60000);
+      const days = Math.floor(diffMins / (60 * 24));
+      const hours = Math.floor((diffMins % (60 * 24)) / 60);
+      const minutes = diffMins % 60;
+      ageDisplay.textContent = `Возраст: ${days} дн. ${hours} ч. ${minutes} мин.`;
     }
 
-    function tick() {
-      updateTimerUI();
-    }
+    function renderDaysTable() {
+      daysTableBody.innerHTML = '';
+      const today = new Date();
+      let row = null;
 
-    function startFeeding() {
-      if (startTime) return;
-      startTime = Date.now();
-      timer = setInterval(tick, 500);
-      updateTimerUI();
-    }
+      for (let i = 1; i <= daysInMonth; i++) {
+        if ((i - 1) % 7 === 0) {
+          row = document.createElement('tr');
+          daysTableBody.appendChild(row);
+        }
 
-    function stopFeeding() {
-      if (!startTime) return;
-      const end = Date.now();
-      const durationSec = Math.floor((end - startTime) / 1000);
-      const rec = {
-        id: 'r_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
-        startISO: new Date(startTime).toISOString(),
-        endISO: new Date(end).toISOString(),
-        durationSec,
-        pee: chkPee.checked,
-        poop: chkPoop.checked,
-      };
-      records.unshift(rec);
-      renderHistory();
-      clearInterval(timer);
-      timer = null;
-      startTime = null;
-      chkPee.checked = false;
-      chkPoop.checked = false;
-      updateTimerUI();
-    }
+        const dayDate = new Date(birthDate);
+        dayDate.setDate(birthDate.getDate() + i - 1);
 
-    function renderHistory() {
-  historyEl.innerHTML = '';
-  if (records.length === 0) {
-    historyEl.innerHTML = '<div class="note">History is empty — no records yet.</div>';
-    return;
-  }
-  records.forEach(rec => {
-    const el = document.createElement('div');
-    el.className = 'entry';
-    el.innerHTML = `
-      <div><b>${new Date(rec.startISO).toLocaleString()}</b> (${formatDuration(rec.durationSec)})</div>
-      <div>
-        <span class="chip">${rec.pee ? '💧' : '💧—'}</span>
-        <span class="chip">${rec.poop ? '💩' : '💩—'}</span>
-      </div>
-      <div class="entry-actions">
-        <button class="secondary" style="font-size:14px;" onclick="deleteRecord('${rec.id}')">Delete</button>
-      </div>
-    `;
-    historyEl.appendChild(el);
-  });
-}
+        const isChecked = today >= dayDate;
 
-    window.deleteRecord = function(id) {
-      if (confirm('Удалить запись?')) {
-        records = records.filter(r => r.id !== id);
-        renderHistory();
+        const cell = document.createElement('td');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'custom-checkbox';
+        checkbox.id = `day-${i}`;
+        checkbox.checked = isChecked;
+        checkbox.disabled = true; // чтобы нельзя было менять вручную, если нужно интерактивность — убрать эту строку
+
+        cell.appendChild(checkbox);
+        row.appendChild(cell);
       }
-    };
+    }
 
-    startBtn.onclick = startFeeding;
-    stopBtn.onclick = stopFeeding;
-    clearAll.onclick = function() {
-      if (confirm('Удалить все записи?')) {
-        records = [];
-        renderHistory();
+    function renderPieChart() {
+      const now = new Date();
+      let livedDays = Math.max(0, Math.floor((now - birthDate) / (1000 * 60 * 60 * 24)));
+      if (livedDays > daysInMonth) livedDays = daysInMonth;
+
+      const ctx = document.getElementById('lifePieChart').getContext('2d');
+
+      if (window.lifeChart) {
+        window.lifeChart.destroy();
       }
-    };
 
-    updateTimerUI();
-    renderHistory();
+      const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+      gradient.addColorStop(0, '#34d399');
+      gradient.addColorStop(1, '#059669');
+
+      window.lifeChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [livedDays, daysInMonth - livedDays],
+            backgroundColor: [
+              gradient,
+              'rgba(229,229,234,0.3)'
+            ],
+            borderWidth: 0,
+            borderRadius: 20,
+            cutout: '80%'
+          }]
+        },
+        options: {
+          responsive: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false },
+            title: { display: false }
+          }
+        }
+      });
+    }
+
+    // Инициализация и обновление
+    updateAgeDisplay();
+    renderDaysTable();
+    renderPieChart();
+
+    setInterval(() => {
+      updateAgeDisplay();
+      renderPieChart();
+    }, 60000); // Обновление каждую минуту
   </script>
 </body>
 </html>
