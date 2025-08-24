@@ -1,334 +1,197 @@
-<!doctype html>
-<html lang="ru">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Melania — WatchOS style ring</title>
-  <style>
-				:root{
-			--bg: #f7f8fb;
-			--card: #ffffff;
-			--muted: #6b7280;
-			--border: #e6e9ef;
-			--checkbox-light: #fbcfe8; /* нежно-розовый для чекбоксов */
-			--ring-start: #fde2e9; /* начало градиента кольца — бледно-розовый */
-			--ring-end: #fbcfe8;   /* конец градиента кольца — такой же, как чекбокс */
-		}
-
-    html,body{height:100%; margin:0; background:var(--bg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Arial; color:#0f172a;}
-    .container{
-      max-width:480px;
-      margin:0 auto;
-      padding:18px;
-      box-sizing:border-box;
-    }
-
-    .card{
-      background:var(--card);
-      border-radius:18px;
-      padding:18px;
-      margin-bottom:14px;
-      box-shadow: 0 10px 30px rgba(15,23,42,0.06);
-      border:1px solid var(--border);
-    }
-
-    /* профиль */
-    .profile{display:flex; gap:14px; align-items:center;}
-    .emoji{font-size:46px}
-    .info{display:flex; flex-direction:column;}
-    .name{font-size:22px; font-weight:700; letter-spacing:-0.2px}
-    .bday{font-size:13px; color:var(--muted); margin-top:4px}
-    .age{font-size:15px; color:var(--ring-end); margin-top:6px; font-weight:600}
-
-    /* таблица чекбоксов */
-    .days-table{width:100%; border-collapse:collapse; margin-top:8px}
-    .days-table td{padding:8px; text-align:center; min-width:30px}
-    /* кастомный чекбокс */
-    .checkbox-wrap{position:relative; display:inline-block; width:26px; height:26px}
-    input.cb{
-      -webkit-appearance:none; appearance:none;
-      width:100%; height:100%; border-radius:8px;
-      border:2px solid rgba(147,197,253,0.7);
-      background: #fff;
-      cursor:default;
-      transition: all .18s ease;
-      box-sizing:border-box;
-      position:relative;
-    }
-    input.cb:checked{
-      background: var(--checkbox-light);
-      border-color: var(--checkbox-light);
-    }
-    input.cb:checked::after{
-      content:"";
-      position:absolute;
-      left:7px; top:3px;
-      width:6px; height:12px;
-      border: solid #fff;
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
-      pointer-events:none;
-    }
-    input.cb:disabled{opacity:0.95}
-
-    /* блок диаграммы */
-    .chart-wrap{display:flex; justify-content:center; align-items:center; padding-top:6px}
-    .ring-canvas{display:block; border-radius:50%}
-
-		.emoji {
-			font-size: 46px;
-			display: inline-block;
-			animation: floatAndTurn 4s ease-in-out infinite;
-			transform-origin: center;
-		}
-
-		@keyframes floatAndTurn {
-			0%   { transform: rotateY(0deg) rotateX(0deg) translateY(0); }
-			25%  { transform: rotateY(15deg) rotateX(5deg) translateY(-3px); }
-			50%  { transform: rotateY(0deg) rotateX(0deg) translateY(0); }
-			75%  { transform: rotateY(-15deg) rotateX(-5deg) translateY(-3px); }
-			100% { transform: rotateY(0deg) rotateX(0deg) translateY(0); }
-		}
-
-    /* мобильная тонкая настройка */
-    @media (max-width:420px){
-      .emoji{font-size:42px}
-      .name{font-size:20px}
-      input.cb{width:22px; height:22px}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melania's Time</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
+        }
+        .timer {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .time-block {
+            text-align: center;
+        }
+        .time-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .seconds .time-value {
+            display: inline-block;
+            opacity: 1;
+        }
+        .seconds .time-value.update {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+        .seconds .time-value.ready {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .time-label {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #ccc;
+        }
+        .buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        button {
+            background-color: #1c1c1e;
+            color: #fff;
+            border: 1px solid #333;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+        button:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .time-value { font-size: 2rem; }
+            .time-label { font-size: 0.9rem; }
+            button { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Профиль -->
-    <div class="card">
-      <div class="profile">
-        <div class="emoji">❤️</div>
-        <div class="info">
-          <div class="name">Мелания</div>
-          <div class="bday">24 июля 2025</div>
-          <div class="age" id="ageDisplay">Возраст: ещё не родилась</div>
+    <h1>Melania</h1>
+    <div class="timer">
+        <div class="time-block">
+            <div class="time-value" id="months">0</div>
+            <div class="time-label">мес</div>
         </div>
-      </div>
+        <div class="time-block">
+            <div class="time-value" id="days">0</div>
+            <div class="time-label">дн</div>
+        </div>
+        <div class="time-block">
+            <div class="time-value" id="hours">0</div>
+            <div class="time-label">ч</div>
+        </div>
+        <div class="time-block">
+            <div class="time-value" id="minutes">0</div>
+            <div class="time-label">мин</div>
+        </div>
+        <div class="time-block seconds">
+            <div class="time-value" id="seconds">0</div>
+            <div class="time-label">сек</div>
+        </div>
+    </div>
+    <div class="buttons">
+        <button onclick="showCurrentTime()">NOW</button>
+        <button onclick="setTargetDate(2)">2 M</button>
+        <button onclick="setTargetDate(6)">6 M</button>
+        <button onclick="setTargetDate(12)">YEAR</button>
     </div>
 
-    <!-- Таблица с чекбоксами -->
-    <div class="card">
-      <table class="days-table" aria-label="Дни жизни">
-        <tbody id="daysTableBody"></tbody>
-      </table>
-    </div>
+    <script>
+        const startDate = new Date('2025-07-24T18:51:00-04:00'); // Miami time (EDT)
+        let targetDate = null;
+        let lastValues = { months: -1, days: -1, hours: -1, minutes: -1, seconds: -1 };
 
-    <!-- Диаграмма в стиле Apple Watch Ultra -->
-    <div class="card">
-      <div class="chart-wrap">
-        <canvas id="watchRing" class="ring-canvas" width="320" height="320" aria-label="Кольцо в стиле Apple Watch" role="img"></canvas>
-      </div>
-    </div>
-  </div>
+        function updateTimer() {
+            const now = new Date();
+            let diffMs;
 
-  <script>
-    // --- настройки ---
-    const birthDate = new Date('2025-07-24T18:51:00');
-    const daysInMonth = 31;
+            if (targetDate) {
+                diffMs = targetDate - now;
+                if (diffMs <= 0) {
+                    targetDate = null; // Reset to elapsed time if target is reached
+                }
+            }
 
-    // DOM
-    const ageDisplay = document.getElementById('ageDisplay');
-    const daysTableBody = document.getElementById('daysTableBody');
+            if (!targetDate) {
+                diffMs = now - startDate;
+            }
 
-    // Рендер таблицы чекбоксов
-    function renderDaysTable(){
-      daysTableBody.innerHTML = '';
-      const today = new Date();
-      let row = null;
-      for(let i=1;i<=daysInMonth;i++){
-        if((i-1)%7===0){
-          row = document.createElement('tr'); daysTableBody.appendChild(row);
+            const isFuture = diffMs >= 0;
+            diffMs = Math.abs(diffMs);
+
+            const totalSeconds = Math.floor(diffMs / 1000);
+            const months = Math.floor(totalSeconds / (30 * 24 * 60 * 60));
+            const days = Math.floor((totalSeconds % (30 * 24 * 60 * 60)) / (24 * 60 * 60));
+            const hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
+            const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+            const seconds = totalSeconds % 60;
+
+            // Update only if values have changed
+            if (months !== lastValues.months) {
+                document.getElementById('months').textContent = months;
+                lastValues.months = months;
+            }
+            if (days !== lastValues.days) {
+                document.getElementById('days').textContent = days;
+                lastValues.days = days;
+            }
+            if (hours !== lastValues.hours) {
+                document.getElementById('hours').textContent = hours;
+                lastValues.hours = hours;
+            }
+            if (minutes !== lastValues.minutes) {
+                document.getElementById('minutes').textContent = minutes;
+                lastValues.minutes = minutes;
+            }
+
+            // Update seconds with smooth transition
+            const secondsEl = document.getElementById('seconds');
+            if (seconds !== lastValues.seconds) {
+                secondsEl.classList.remove('ready');
+                secondsEl.classList.add('update');
+                setTimeout(() => {
+                    secondsEl.textContent = seconds;
+                    secondsEl.classList.remove('update');
+                    secondsEl.classList.add('ready');
+                }, 300); // Match transition duration
+                lastValues.seconds = seconds;
+            }
         }
-        const dayDate = new Date(birthDate);
-        dayDate.setDate(birthDate.getDate() + i - 1);
-        const isChecked = today >= dayDate;
 
-        const td = document.createElement('td');
-        const wrap = document.createElement('label');
-        wrap.className = 'checkbox-wrap';
-        const cb = document.createElement('input');
-        cb.type = 'checkbox'; cb.className = 'cb';
-        cb.checked = isChecked; cb.disabled = true;
-        wrap.appendChild(cb);
-        td.appendChild(wrap);
-        row.appendChild(td);
-      }
-    }
+        function setTargetDate(months) {
+            targetDate = new Date(startDate);
+            targetDate.setMonth(targetDate.getMonth() + months);
+            lastValues = { months: -1, days: -1, hours: -1, minutes: -1, seconds: -1 };
+            updateTimer();
+        }
 
-    // Обновление возраста
-    function updateAgeDisplay(){
-      const now = new Date();
-      const diff = now - birthDate;
-      if(diff < 0){
-        ageDisplay.textContent = 'Возраст: ещё не родилась';
-        return;
-      }
-      const mins = Math.floor(diff / 60000);
-      const days = Math.floor(mins / (60*24));
-      const hours = Math.floor((mins % (60*24)) / 60);
-      const minutes = mins % 60;
-      ageDisplay.textContent = `${days} дн. ${hours} ч. ${minutes} мин.`;
-    }
+        function showCurrentTime() {
+            targetDate = null;
+            lastValues = { months: -1, days: -1, hours: -1, minutes: -1, seconds: -1 };
+            updateTimer();
+        }
 
-    // --- Рисование кольца в стиле WatchOS (native canvas) ---
-    const canvas = document.getElementById('watchRing');
-    const ctx = canvas.getContext('2d');
-
-    // адаптация для DPR (чтобы не было размытия на ретинах)
-    function fitCanvasToDisplaySize(canvas){
-      const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      const width = Math.round(rect.width);
-      const height = Math.round(rect.height);
-      if(canvas.width !== width * dpr || canvas.height !== height * dpr){
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
-        canvas.style.width = width + 'px';
-        canvas.style.height = height + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-    }
-
-    // Главная функция рендера кольца
-    function renderRing(progress){ // progress 0..1
-      fitCanvasToDisplaySize(canvas);
-      const w = canvas.width / (window.devicePixelRatio || 1);
-      const h = canvas.height / (window.devicePixelRatio || 1);
-      ctx.clearRect(0,0,w,h);
-
-      // параметры (подбираем под Apple Watch Ultra look)
-      const centerX = w/2, centerY = h/2;
-      const radius = Math.min(w,h) * 0.36; // внешний радиус круга
-      const lineWidth = Math.max(12, Math.round(Math.min(w,h)*0.07)); // толщина кольца ~12-18px
-      const startAngle = -Math.PI * 0.5; // верхняя точка
-      const endAngle = startAngle + Math.PI * 2 * progress;
-
-      // фон (слабая полу-прозрачная дуга)
-      ctx.lineWidth = lineWidth;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.strokeStyle = 'rgba(15,23,42,0.06)'; // мягкий фон для незаполненной части
-      ctx.arc(centerX, centerY, radius, startAngle, startAngle + Math.PI*2, false);
-      ctx.stroke();
-
-      // тень/свечение под активной дугой
-      ctx.save();
-      ctx.translate(0,0);
-      ctx.shadowBlur = 14;
-      ctx.shadowColor = 'rgba(96,165,250,0.22)'; // нежное голубое свечение
-      // градиент для основной дуги
-      const grad = ctx.createLinearGradient(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
-      grad.addColorStop(0, '#cfe8ff'); // бледный
-      grad.addColorStop(1, '#60a5fa'); // мягкий голубой
-
-      // нарисовать активную дугу (rounded ends благодаря lineCap = 'round')
-      ctx.beginPath();
-      ctx.lineWidth = lineWidth;
-      ctx.lineCap = 'round';
-      ctx.strokeStyle = grad;
-      ctx.arc(centerX, centerY, radius, startAngle, endAngle, false);
-      ctx.stroke();
-
-      ctx.restore();
-
-      // дополнительный тонкий внутренний бликовый контур (для глубины)
-      ctx.beginPath();
-      ctx.lineWidth = Math.max(1, Math.round(lineWidth*0.14));
-      ctx.strokeStyle = 'rgba(255,255,255,0.35)';
-      ctx.lineCap = 'butt';
-      ctx.arc(centerX, centerY, radius - (lineWidth*0.28), startAngle, endAngle, false);
-      ctx.stroke();
-
-      // Центр: аккуратный круг фона (имитация cutout)
-      ctx.beginPath();
-      const innerRadius = radius - lineWidth - 6;
-      ctx.fillStyle = '#fff';
-      ctx.arc(centerX, centerY, innerRadius, 0, Math.PI*2);
-      ctx.fill();
-
-      // Текст по центру: проценты / дни
-      ctx.fillStyle = '#0f172a';
-      ctx.font = '600 18px Inter, -apple-system, "Segoe UI", Roboto';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      const percent = Math.round(progress * 100);
-      ctx.fillText(`${percent}%`, centerX, centerY - 8);
-
-      ctx.fillStyle = '#6b7280';
-      ctx.font = '400 12px Inter, -apple-system, "Segoe UI", Roboto';
-      ctx.fillText(`Дней: ${Math.round(progress*daysInMonth)}/${daysInMonth}`, centerX, centerY + 14);
-    }
-
-    // анимация прогресса (плавно от 0 до value)
-    function animateTo(targetProgress, duration=900){
-      const start = performance.now();
-      const initial = 0;
-      function frame(t){
-        const elapsed = t - start;
-        const tNorm = Math.min(1, elapsed / duration);
-        // easeOutCubic
-        const eased = 1 - Math.pow(1 - tNorm, 3);
-        const cur = initial + (targetProgress - initial) * eased;
-        renderRing(cur);
-        if(tNorm < 1) requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    }
-
-    // вычислить прогресс по дням (0..1)
-    function getProgress(){
-      const now = new Date();
-      let livedDays = Math.max(0, Math.floor((now - birthDate) / (1000*60*60*24)));
-      if(livedDays > daysInMonth) livedDays = daysInMonth;
-      return livedDays / daysInMonth;
-    }
-
-    // Инициализация: таблица, возраст, и кольцо
-    function init(){
-      renderDaysTable();
-      updateAgeDisplay();
-      // ресайз/адаптация холста
-      resizeAndRender();
-      // анимированное заполнение кольца
-      const p = getProgress();
-      animateTo(p, 900);
-    }
-
-    // при изменении размера — подгонять canvas
-    function resizeAndRender(){
-      // делаем canvas видимым квадратом, под ширину контейнера
-      const wrapper = canvas.parentElement;
-      const avail = Math.min(wrapper.clientWidth, 360);
-      canvas.style.width = avail + 'px';
-      canvas.style.height = avail + 'px';
-      fitCanvasToDisplaySize(canvas);
-      // отрисуем текущий прогресс (без анимации)
-      renderRing(getProgress());
-    }
-
-    // обновление каждую минуту (возраст и кольцо)
-    setInterval(()=>{
-      updateAgeDisplay();
-      const p = getProgress();
-      renderRing(p);
-    }, 60000);
-
-    // обработчики resize
-    window.addEventListener('resize', ()=>{
-      // небольшой debounce
-      clearTimeout(window.__ringResizeTimer);
-      window.__ringResizeTimer = setTimeout(()=>{ resizeAndRender(); }, 120);
-    });
-
-    // старт
-    renderDaysTable();
-    init();
-  </script>
+        // Initial update and set interval for seconds
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    </script>
 </body>
 </html>
