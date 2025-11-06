@@ -1,197 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Melania's Time</title>
-    <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-        }
-        h1 {
-            font-size: 3rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            letter-spacing: 0.05em;
-        }
-        .timer {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .time-block {
-            text-align: center;
-        }
-        .time-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        .seconds .time-value {
-            display: inline-block;
-            opacity: 1;
-        }
-        .seconds .time-value.update {
-            opacity: 0;
-            transform: translateY(5px);
-        }
-        .seconds .time-value.ready {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .time-label {
-            font-size: 1rem;
-            font-weight: 400;
-            color: #ccc;
-        }
-        .buttons {
-            display: flex;
-            gap: 1rem;
-        }
-        button {
-            background-color: #1c1c1e;
-            color: #fff;
-            border: 1px solid #333;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s ease;
-        }
-        button:hover {
-            background-color: #333;
-            transform: scale(1.05);
-        }
-        button:active {
-            transform: scale(0.95);
-        }
-        @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .time-value { font-size: 2rem; }
-            .time-label { font-size: 0.9rem; }
-            button { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melania's Time</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 3rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+    }
+    .timer {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      transition: opacity 0.5s ease;
+    }
+    .time-block { text-align: center; }
+    .time-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .time-label { font-size: 1rem; color: #ccc; }
+    .buttons { display: flex; gap: 1rem; }
+    button {
+      background-color: #1c1c1e;
+      color: #fff;
+      border: 1px solid #333;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+    button:hover { background-color: #333; transform: scale(1.05); }
+    button:active { transform: scale(0.95); }
+
+    .done {
+      font-size: 4rem;
+      font-weight: 700;
+      animation: pop 1s ease forwards, glow 5s linear infinite;
+      text-shadow: 0 0 20px #00ff6a, 0 0 40px #00aaff;
+      z-index: 10;
+    }
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 0; }
+      60% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    @keyframes glow {
+      0% { color: #00ff6a; text-shadow: 0 0 20px #00ff6a; }
+      50% { color: #00aaff; text-shadow: 0 0 25px #00aaff; }
+      100% { color: #ff00aa; text-shadow: 0 0 20px #ff00aa; }
+    }
+
+    .flash {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255,255,255,0.6), transparent 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      pointer-events: none;
+      animation: flash 0.7s ease-out;
+      z-index: 5;
+    }
+    @keyframes flash {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+      70% { transform: translate(-50%, -50%) scale(2); opacity: 0.8; }
+      100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+    }
+  </style>
 </head>
 <body>
-    <h1>MELANIA</h1>
-    <div class="timer">
-        <div class="time-block">
-            <div class="time-value" id="months">0</div>
-            <div class="time-label">мес</div>
-        </div>
-        <div class="time-block">
-            <div class="time-value" id="days">0</div>
-            <div class="time-label">дн</div>
-        </div>
-        <div class="time-block">
-            <div class="time-value" id="hours">0</div>
-            <div class="time-label">ч</div>
-        </div>
-        <div class="time-block">
-            <div class="time-value" id="minutes">0</div>
-            <div class="time-label">мин</div>
-        </div>
-        <div class="time-block seconds">
-            <div class="time-value" id="seconds">0</div>
-            <div class="time-label">сек</div>
-        </div>
-    </div>
-    <div class="buttons">
-        <button onclick="showCurrentTime()">NOW</button>
-        <!-- <button onclick="setTargetDate(2)">2 M</button> -->
-        <button onclick="setTargetDate(4)">US PASSPORT</button>
-        <button onclick="setTargetDate(12)">YEAR</button>
-    </div>
+  <h1>MELANIA</h1>
+  <div class="timer" id="timer">
+    <div class="time-block"><div class="time-value" id="months">0</div><div class="time-label">мес</div></div>
+    <div class="time-block"><div class="time-value" id="days">0</div><div class="time-label">дн</div></div>
+    <div class="time-block"><div class="time-value" id="hours">0</div><div class="time-label">ч</div></div>
+    <div class="time-block"><div class="time-value" id="minutes">0</div><div class="time-label">мин</div></div>
+    <div class="time-block"><div class="time-value" id="seconds">0</div><div class="time-label">сек</div></div>
+  </div>
+  <div class="buttons">
+    <button onclick="showCurrentTime()">NOW</button>
+    <button onclick="showDone()">US PASSPORT</button>
+    <button onclick="setTargetDate(12)">YEAR</button>
+  </div>
 
-    <script>
-        const startDate = new Date('2025-07-24T18:51:00-04:00'); // Miami time (EDT)
-        let targetDate = null;
-        let lastValues = { months: -1, days: -1, hours: -1, minutes: -1, seconds: -1 };
+  <audio id="chimeSound" preload="auto">
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4c8f92d7cc.mp3" type="audio/mpeg">
+  </audio>
 
-        function updateTimer() {
-            const now = new Date();
-            let diffMs;
+  <script>
+    const startDate = new Date('2025-07-24T18:51:00-04:00');
+    let targetDate = null;
+    let lastValues = { months: -1, days: -1, hours: -1, minutes: -1, seconds: -1 };
 
-            if (targetDate) {
-                diffMs = targetDate - now;
-                if (diffMs <= 0) {
-                    targetDate = null; // Reset to elapsed time if target is reached
-                }
-            }
-
-            if (!targetDate) {
-                diffMs = now - startDate;
-            }
-
-            const isFuture = diffMs >= 0;
-            diffMs = Math.abs(diffMs);
-
-            const totalSeconds = Math.floor(diffMs / 1000);
-            const months = Math.floor(totalSeconds / (30 * 24 * 60 * 60));
-            const days = Math.floor((totalSeconds % (30 * 24 * 60 * 60)) / (24 * 60 * 60));
-            const hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
-            const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
-            const seconds = totalSeconds % 60;
-
-            // Update only if values have changed
-            if (months !== lastValues.months) {
-                document.getElementById('months').textContent = months;
-                lastValues.months = months;
-            }
-            if (days !== lastValues.days) {
-                document.getElementById('days').textContent = days;
-                lastValues.days = days;
-            }
-            if (hours !== lastValues.hours) {
-                document.getElementById('hours').textContent = hours;
-                lastValues.hours = hours;
-            }
-            if (minutes !== lastValues.minutes) {
-                document.getElementById('minutes').textContent = minutes;
-                lastValues.minutes = minutes;
-            }
-
-            // Update seconds with smooth transition
-            const secondsEl = document.getElementById('seconds');
-            if (seconds !== lastValues.seconds) {
-                secondsEl.classList.remove('ready');
-                secondsEl.classList.add('update');
-                setTimeout(() => {
-                    secondsEl.textContent = seconds;
-                    secondsEl.classList.remove('update');
-                    secondsEl.classList.add('ready');
-                }, 300); // Match transition duration
-                lastValues.seconds = seconds;
-            }
+    function updateTimer() {
+      const now = new Date();
+      let diffMs = targetDate ? targetDate - now : now - startDate;
+      diffMs = Math.abs(diffMs);
+      const totalSeconds = Math.floor(diffMs / 1000);
+      const months = Math.floor(totalSeconds / (30 * 24 * 60 * 60));
+      const days = Math.floor((totalSeconds % (30 * 24 * 60 * 60)) / (24 * 60 * 60));
+      const hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
+      const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+      const seconds = totalSeconds % 60;
+      const map = { months, days, hours, minutes, seconds };
+      for (const key in map) {
+        if (map[key] !== lastValues[key]) {
+          document.getElementById(key).textContent = map[key];
+          lastValues[key] = map[key];
         }
+      }
+    }
 
-        function setTargetDate(months) {
-            targetDate = new Date(startDate);
-            targetDate.setMonth(targetDate.getMonth() + months);
-            lastValues = { months: -1, days: -1, hours: -1, minutes: -1, seconds: -1 };
-            updateTimer();
-        }
+    function setTargetDate(months) {
+      targetDate = new Date(startDate);
+      targetDate.setMonth(targetDate.getMonth() + months);
+      lastValues = { months: -1, days: -1, hours: -1, minutes: -1, seconds: -1 };
+      updateTimer();
+    }
 
-        function showCurrentTime() {
-            targetDate = null;
-            lastValues = { months: -1, days: -1, hours: -1, minutes: -1, seconds: -1 };
-            updateTimer();
-        }
+    function showCurrentTime() {
+      document.getElementById('doneText')?.remove();
+      document.getElementById('timer').style.display = 'flex';
+      targetDate = null;
+      lastValues = { months: -1, days: -1, hours: -1, minutes: -1, seconds: -1 };
+      updateTimer();
+    }
 
-        // Initial update and set interval for seconds
-        updateTimer();
-        setInterval(updateTimer, 1000);
-    </script>
+    function showDone() {
+      const timer = document.getElementById('timer');
+      timer.style.display = 'none';
+      document.getElementById('doneText')?.remove();
+
+      const done = document.createElement('div');
+      done.id = 'doneText';
+      done.className = 'done';
+      done.textContent = 'DONE';
+      document.body.appendChild(done);
+
+      const flash = document.createElement('div');
+      flash.className = 'flash';
+      document.body.appendChild(flash);
+
+      document.getElementById('chimeSound').play();
+      launchConfetti();
+      setTimeout(() => {
+        flash.remove();
+        done.remove();
+        showCurrentTime();
+      }, 5000);
+    }
+
+    function launchConfetti() {
+      const count = 200;
+      const colors = ['#00ff6a', '#00aaff', '#ffffff', '#ff00aa'];
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * 2 * Math.PI;
+        const speed = 2 + Math.random() * 6;
+        const size = 6 + Math.random() * 6;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        const particle = document.createElement('div');
+        particle.style.position = 'fixed';
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.backgroundColor = color;
+        particle.style.left = `${centerX}px`;
+        particle.style.top = `${centerY}px`;
+        particle.style.borderRadius = '50%';
+        particle.style.pointerEvents = 'none';
+        particle.style.zIndex = '3';
+        document.body.appendChild(particle);
+
+        const x = Math.cos(angle) * (window.innerWidth / 2 + 50);
+        const y = Math.sin(angle) * (window.innerHeight / 2 + 50);
+        const rotate = (Math.random() * 720 - 360);
+
+        const anim = particle.animate(
+          [
+            { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+            { transform: `translate(${x}px, ${y}px) rotate(${rotate}deg)`, opacity: 0 }
+          ],
+          { duration: 2000 + Math.random() * 1000, easing: 'ease-out' }
+        );
+
+        anim.onfinish = () => particle.remove();
+      }
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  </script>
 </body>
 </html>
